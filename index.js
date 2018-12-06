@@ -18,8 +18,9 @@ app.use(static(
     path.join(__dirname, '/static')
 ))
 
-//koa路由
+//koa路由  /api/details/:id  路径例如/api/details/123  而不是/api/details?id=123  
 router.get('/api/details', async (ctx) => {
+    console.log(ctx.query);
     ctx.body = await details;
 });
 router.get('/api/list', async (ctx) => {
