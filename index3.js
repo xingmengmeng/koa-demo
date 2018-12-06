@@ -6,9 +6,6 @@ const static = require('koa-static');//静态资源中间件
 const app = new Koa();
 const router = new Router();
 
-const details = require('./router/details');
-const list=require('./router/list');
-
 // 加载模板引擎
 app.use(views(__dirname + '/view', {
     map: { html: 'ejs' }
@@ -19,11 +16,17 @@ app.use(static(
 ))
 
 //koa路由
-router.get('/api/details', async (ctx) => {
-    ctx.body = await details;
+router.get('/', async (ctx) => {
+    await ctx.render('index', {
+        title: 'Koa2',
+        num: '1',
+    })
 });
-router.get('/api/list', async (ctx) => {
-    ctx.body = await list;
+router.get('/hello', async (ctx) => {
+    ctx.body = 'helloworld'
+});
+router.get('/about', async (ctx) => {
+    ctx.body = 'about'
 });
 
 
