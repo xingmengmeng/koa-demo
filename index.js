@@ -3,11 +3,12 @@ const Router = require('koa-router');//路由
 const views = require('koa-views');//koa模板
 const path = require('path');//node核心模块
 const static = require('koa-static');//静态资源中间件
+const bodyParser = require('koa-bodyparser');
 const app = new Koa();
 const router = new Router();
 
 const details = require('./router/details');
-const list=require('./router/list');
+const list = require('./router/list');
 
 // 加载模板引擎
 app.use(views(__dirname + '/view', {
@@ -16,14 +17,18 @@ app.use(views(__dirname + '/view', {
 //静态资源
 app.use(static(
     path.join(__dirname, '/static')
-))
+));
+//post请求处理
+app.use(bodyParser());
 
 //koa路由  /api/details/:id  路径例如/api/details/123  而不是/api/details?id=123  
 router.get('/api/details', async (ctx) => {
     console.log(ctx.query);
     ctx.body = await details;
 });
-router.get('/api/list', async (ctx) => {
+
+router.post('/api/list', async (ctx) => {
+    console.log(ctx.request.body)
     ctx.body = await list;
 });
 
