@@ -7,13 +7,13 @@ const router = new Router();
 
 //post请求处理
 app.use(bodyParser());
-let mysqlConfig = {
+const mysqlConfig = {
     host: '10.152.18.41',
     user: 'root',
     password: 'root',
     database: 'bi_fen'
 }
-let sqlQueryFn = sql => {
+const sqlQueryFn = sql => {
     return new Promise((resolve, reject) => {
         let connection = mysql.createConnection(mysqlConfig);
         connection.connect();
@@ -35,7 +35,7 @@ router.get('/api/details', async (ctx) => {
 })
 //select * from 数据表  where 字段名 BETWEEN '2016-02-01' AND '2016-02-05' 
 //select * from 数据表  where 字段名 >= '2016-02-01' AND 字段名 <= '2016-02-05  order by 字段名 升/降序' 
-//select * from 数据表  where 字段名='2016-02-01' 
+//select * from 数据表  where 字段名 = '2016-02-01' 
 router.post('/api/list', async (ctx) => {
     console.log(ctx.request.body);
     let start = ctx.request.body.start,
