@@ -13,7 +13,7 @@ let mysqlConfig = {
     password: 'root',
     database: 'bi_fen'
 }
-let sqlQueryFn = (sql) => {
+let sqlQueryFn = sql => {
     return new Promise((resolve, reject) => {
         let connection = mysql.createConnection(mysqlConfig);
         connection.connect();
@@ -37,7 +37,10 @@ router.get('/api/details', async (ctx) => {
 //select * from 数据表  where 字段名 >= '2016-02-01' AND 字段名 <= '2016-02-05  order by 字段名 升/降序' 
 //select * from 数据表  where 字段名='2016-02-01' 
 router.post('/api/list', async (ctx) => {
-    let sql = "select * from app_dash_kpi where month>= '2016-07' and month<= '2017-05' and kpi > '5000' order by month desc";
+    console.log(ctx.request.body);
+    let start = ctx.request.body.start,
+        end = ctx.request.body.end;
+    let sql = `select * from app_dash_kpi where month>= '${start}' and month<= '${end}' and kpi > '5000' order by month desc`;
     ctx.body = await sqlQueryFn(sql);
 })
 
