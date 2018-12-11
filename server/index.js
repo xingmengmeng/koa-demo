@@ -71,7 +71,12 @@ router.delete('/api/deletes', async (ctx) => {
         let resObj = {
             status: '成功'
         }
-        ctx.body = resObj
+        ctx.body = resObj;
+    } else {
+        ctx.body = {
+            code: 200,
+            msg: '查无数据，删除失败'
+        }
     }
 })
 
