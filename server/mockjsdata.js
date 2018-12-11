@@ -7,8 +7,8 @@ const bodyParser = require('koa-bodyparser');
 const app = new Koa();
 const router = new Router();
 
-const details = require('./router/details');
-const list = require('./router/list');
+const details = require('../router/details');
+const list = require('../router/list');
 
 // 加载模板引擎
 app.use(views(__dirname + '/view', {

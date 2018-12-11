@@ -19,7 +19,7 @@ const sqlQueryFn = sql => {
         connection.connect();
         connection.query(sql, (err, res) => {
             if (err) {
-                console.log(err);
+                reject(err);
             } else {
                 resolve(res);
             }
@@ -42,6 +42,37 @@ router.post('/api/list', async (ctx) => {
         end = ctx.request.body.end;
     let sql = `select * from app_dash_kpi where month>= '${start}' and month<= '${end}' and kpi > '5000' order by month desc`;
     ctx.body = await sqlQueryFn(sql);
+})
+//insert into  表名 () values ()
+router.post('/api/insert', async (ctx) => {
+    let obj = ctx.request.body;//{ kpi: '5536', month: '2016-06', system: 'myf' }
+    let sql = `insert into app_dash_kpi (kpi,month,system) values ('${obj.kpi}','${obj.month}','${obj.system}')`;
+    ctx.body = await sqlQueryFn(sql);
+})
+//update 表名 set address = 'shanxishengxianshi' where ID=904;
+router.post('/api/update', async (ctx) => {
+    let obj = ctx.request.body;//
+    let sql = `update app_dash_kpi set kpi = '${obj.kpi}' where month='${obj.month}'`;
+    let res = await sqlQueryFn(sql);
+    if (res.affectedRows > 0) {
+        let resObj = {
+            status: '成功'
+        }
+        ctx.body = resObj
+    }
+})
+//delete from 表名 where 条件；
+router.delete('/api/deletes', async (ctx) => {
+    let obj = ctx.query;
+    let sql = `delete from app_dash_kpi where month='${obj.month}'`;
+    let res = await sqlQueryFn(sql);
+    console.log(res);
+    if (res.affectedRows > 0) {
+        let resObj = {
+            status: '成功'
+        }
+        ctx.body = resObj
+    }
 })
 
 //第三方路由中间件的使用  必须放在最后  很重要
